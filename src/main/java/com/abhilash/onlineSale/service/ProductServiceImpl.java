@@ -31,7 +31,8 @@ public class ProductServiceImpl implements ProductService {
     // GET ALL THE PRODUCTS
     @Override
     public List<Product> showAllProducts() {
-        List<Product> productList = productRepository.findAll();
+        //Find product and order them by product type
+        List<Product> productList = productRepository.findAllByOrderByProductTypeAsc();
         return productList;
     }
 
