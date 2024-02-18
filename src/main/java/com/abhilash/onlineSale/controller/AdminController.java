@@ -88,11 +88,4 @@ public class AdminController {
         return "/notification/enableUser";
     }
 
-    @GetMapping("whatever")
-    public String dosome() {
-        System.out.println("printing after add");
-        // add somthing
-        return "";
-    }
-
 }
