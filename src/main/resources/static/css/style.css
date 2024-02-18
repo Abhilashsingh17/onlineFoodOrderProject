@@ -1,0 +1,101 @@
+/*manage the size of the image in the food table*/
+
+.cell-image {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.error {
+  color: red;
+  font-style: italic;
+  text-align: center;
+  font-size: smaller;
+  margin-left: 30%;
+}
+form-group .error {
+  color: red;
+  font-style: italic;
+  text-align: center;
+  font-size: smaller;
+  margin-left: 30%;
+}
+
+/* -- > .nav-item a.navoption {
+  color: #e32b2b;
+  font-weight: 700;
+} */
+.welcome {
+  color: #e32b2b;
+  font-weight: 400;
+}
+.navbar-nav .nav-item a.onHover {
+  color: #e32b2b;
+  font-weight: 400;
+}
+.navbar-nav .nav-item a.onHover:hover {
+  color: white;
+  background-color: #e32b2b;
+}
+.custom-font {
+  font-family: "sans-serif", "Lucida Sans", "Lucida Sans Regular",
+    "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: white;
+  font-size: 4.5pc;
+}
+
+.custom-fontsecond {
+  font-family: "sans-serif", "Lucida Sans", "Lucida Sans Regular",
+    "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: rgb(99, 98, 98);
+  font-size: 1.4pc;
+}
+.order-now-btn {
+  background-color: #f8f9fa;
+  color: #e32b2b;
+}
+
+.order-now-btn:hover {
+  background-color: #e32b2b;
+  color: white;
+}
+.onHovercart {
+  color: #f68f8f;
+  font-size: large;
+}
+.onHovercart:hover {
+  color: #e32b2b;
+}
+.logout-now-btn {
+  background-color: #e32b2b;
+  color: white;
+  font-weight: 400;
+}
+.logout-now-btn:hover {
+  background-color: white;
+  color: #e32b2b;
+}
+
+/* ======= TABLE IN THE PRODUCT PAGE ================================== */
+.custom-table {
+  background: hsla(0, 0%, 100%, 0.55);
+  backdrop-filter: blur(30px);
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.custom-table th {
+  background: hsla(0, 0%, 100%, 0.55);
+}
+
+.custom-table tr:hover {
+  background: hsla(0, 0%, 100%, 0.55);
+}
+
+/* ====================================================== */

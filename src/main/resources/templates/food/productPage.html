@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+
+    <title>Food Page</title>
+  </head>
+
+  <!--overflow:hidden-->
+
+  <body
+  style="
+  background-image: url(/background/backgroundnine.png);
+  background-size: cover;
+  background-position: top center;
+  background-repeat: repeat;
+"
+  >
+    <!-- Navbar -->
+    <nav
+      class="navbar navbar-expand-lg p-0 sticky-top"
+      style="background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px)"
+    >
+      <div class="ms-3 me-3">
+        <a class="nav-link" th:href="@{/}">
+          <img
+            src="/logo/mainfoodlogoone.png"
+            alt="Logo"
+            height="40"
+            width="80"
+          />
+        </a>
+      </div>
+
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link fs-6 navoption onHover" th:href="@{/}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-6 navoption onHover" th:href="@{/productPage}"
+            >Food</a
+          >
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('CUSTOMER')">
+          <a class="nav-link fs-6 navoption onHover" th:href="@{/myOrdersPage}"
+            >MyOrder</a
+          >
+        </li>
+      </ul>
+
+      <ul class="navbar-nav mb-lg-0">
+        <li style="" class="me-3">
+          <a
+            th:href="@{updateUserDetails(emailId = ${currentUser.emailId })}"
+            style="text-decoration: none"
+          >
+            <p class="mt-2 mb-0 welcome" style="">
+              Welcome,
+              <span th:text="${currentUser.firstName}" class="welcome"></span>
+            </p>
+
+            <p th:text="${currentUser.emailId}" style="display: none"></p
+          ></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/showMyCart}">
+            <span class="badge badge-pill bg-danger" th:text="${totalQtyInCart}"
+              >0</span
+            >
+            <span><i class="fas fa-shopping-cart onHovercart"></i></span>
+          </a>
+        </li>
+        <li style="">
+          <form action="#" th:action="@{/logout}" method="post">
+            <button
+              type="submit"
+              class="btn logout-now-btn btn-rounded btn-xs ms-3 mt-1 me-3 p-1"
+            >
+              Logout
+            </button>
+          </form>
+        </li>
+      </ul>
+    </nav>
+
+    <!--<div class="container-fluid vh-100 justify-text-center mt-0" style="background-color: blue">-->
+    <div class="container-fluid content-container">
+      <!--    <div class="container vh-10 mt-0  d-flex justify-content-center align-items-center">-->
+      <div
+        class="container mt-0 d-flex justify-content-center align-items-center"
+      >
+        <h3>Product Data</h3>
+      </div>
+      <!--    <div class="container vh-10 mt-0  d-flex justify-content-center align-items-center">-->
+
+      <div
+        class="container mt-0 d-flex justify-content-center align-items-center"
+      >
+        <!-- <h3>space for filter</h3> -->
+      </div>
+      <div class="container mt-0 d-flex justify-content-center">
+        <!--        <table class="table table-bordered table-striped mx-auto">-->
+
+        <!-- <table class="table-hover" style="background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px);width: 100%;"> -->
+        <table class="custom-table">
+          <thead class="">
+            <tr>
+              <th class="text-center" style="width: 10%">Image</th>
+              <th class="text-center" style="width: 10%">Name</th>
+              <th class="text-center" style="width: 10%">Food Type</th>
+              <th class="text-center" style="width: 10%">Description</th>
+              <th class="text-center" style="width: 10%">Amount</th>
+              <th class="text-center" style="width: 10%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each=" tempProduct : ${productModel}">
+              <td class="text-center align-middle">
+                <a
+                  th:href="@{/images/{imageName}(imageName=${tempProduct.productImage})}"
+                  target="_blank"
+                >
+                  <img
+                    th:src="@{/images/{imageName}(imageName=${tempProduct.productImage})}"
+                    alt="Product Image"
+                    class="cell-image"
+                  />
+                  <!--                <img th:src="@{/images/{imageName}(imageName=${tempProduct.productImage})}" alt="Product Image" class="cell-image" />-->
+                </a>
+              </td>
+              <td
+                class="text-center align-middle"
+                th:text="${tempProduct.productName}"
+              >
+                Image
+              </td>
+              <td
+                class="text-center align-middle"
+                th:text="${tempProduct.productType}"
+              >
+                Image
+              </td>
+              <td
+                class="text-center align-middle"
+                th:text="${tempProduct.productDescription}"
+              >
+                Image
+              </td>
+              <td
+                class="text-center align-middle"
+                th:text="${tempProduct.productAmount}"
+              >
+                Image
+              </td>
+
+              <td class="text-center align-middle">
+                <!-- <a
+                  class="text-center btn btn-primary"
+                  sec:authorize="hasRole('CUSTOMER')"
+                  th:href="@{/addProductToCart(id= ${tempProduct.productId})}"
+                >
+                  Add To Cart
+                </a> -->
+                <form th:action="@{/addProductToCart}" th:method="post">
+                  <input
+                    type="hidden"
+                    name="id"
+                    th:value="${tempProduct.productId}"
+                  />
+                  <button
+                    class="text-center btn btn-primary"
+                    sec:authorize="hasRole('CUSTOMER')"
+                  >
+                    Add To Cart
+                  </button>
+                </form>
+
+                <a
+                  class="text-center btn btn-primary mb-1 col-12"
+                  sec:authorize="!hasRole('CUSTOMER')"
+                  th:href="@{/updateProduct(id= ${tempProduct.productId})}"
+                >
+                  Edit Product
+                </a>
+
+                <form th:action="@{/deleteProduct}" th:method="delete">
+                  <input type="hidden" name="id"  th:value="${tempProduct.productId}"/>
+                  <button type="submit" class="btn btn-danger col-12" sec:authorize="!hasRole('CUSTOMER')">Delete Product</button>
+
+                  <!-- <a
+                  class="text-center btn btn-danger col-12"
+                  sec:authorize="!hasRole('CUSTOMER')"
+                  th:href="@{/deleteProduct(id= ${tempProduct.productId})}"
+                  onclick="if( !( confirm ('Are You Sure Want to Delete'))) return false"
+                >
+                  Delete Product
+                </a> -->
+                </form>
+                <!-- onclick="if( !( confirm ('Are You Sure Want to Delete'))) return false" -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="text-white text-center">
+      <div class="mb-0" style="height: 120px">
+        <hr class="border border-secondary-emphasis border-2 opacity-100" />
+
+        <p>Follow us on social media:</p>
+        <a href="#" class="btn btn-outline-light btn-lg social-icons"
+          ><i class="fab fa-facebook"></i
+        ></a>
+        <a href="#" class="btn btn-outline-light btn-lg social-icons"
+          ><i class="fab fa-instagram"></i
+        ></a>
+        <a href="#" class="btn btn-outline-light btn-lg social-icons"
+          ><i class="fab fa-twitter"></i
+        ></a>
+        <a href="#" class="btn btn-outline-light btn-lg social-icons"
+          ><i class="fab fa-telegram"></i
+        ></a>
+      </div>
+    </footer>
+  </body>
+</html>

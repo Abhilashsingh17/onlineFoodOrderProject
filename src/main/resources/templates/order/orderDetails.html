@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <title>Order Details</title>
+  </head>
+  <body
+    style="
+      background-image: url(/background/backgroundtwo.png);
+      background-size: cover;
+      background-position: top center;
+      background-repeat: repeat;
+    "
+  >
+    <!-- Navbar -->
+    <nav
+      class="navbar navbar-expand-lg p-0 sticky-top"
+      style="background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px)"
+    >
+      <div class="ms-3 me-3">
+        <a class="nav-link" th:href="@{/}">
+          <img
+            src="/logo/mainfoodlogoone.png"
+            alt="Logo"
+            height="40"
+            width="80"
+          />
+        </a>
+      </div>
+
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link fs-6 navoption onHover" th:href="@{/}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-6 navoption onHover" th:href="@{/productPage}"
+            >Food</a
+          >
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('CUSTOMER')">
+          <a class="nav-link fs-6 navoption onHover" th:href="@{/myOrdersPage}"
+            >MyOrder</a
+          >
+        </li>
+      </ul>
+
+      <ul class="navbar-nav mb-lg-0">
+        <li style="" class="me-3">
+          <a
+            th:href="@{updateUserDetails(emailId = ${currentUser.emailId })}"
+            style="text-decoration: none"
+          >
+            <p class="mt-2 mb-0 welcome" style="">
+              Welcome,
+              <span th:text="${currentUser.firstName}" class="welcome"></span>
+            </p>
+
+            <p th:text="${currentUser.emailId}" style="display: none"></p
+          ></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/showMyCart}">
+            <span class="badge badge-pill bg-danger" th:text="${totalQtyInCart}"
+              >0</span
+            >
+            <span><i class="fas fa-shopping-cart onHovercart"></i></span>
+          </a>
+        </li>
+        <li style="">
+          <form action="#" th:action="@{/logout}" method="post">
+            <button
+              type="submit"
+              class="btn logout-now-btn btn-rounded btn-xs ms-3 mt-1 me-3 p-1"
+            >
+              Logout
+            </button>
+          </form>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="vh-100 justify-text-center mt-0">
+      <div class="mt-0 d-flex justify-content-center align-items-center">
+        <h3>Order Details</h3>
+      </div>
+      <div class="mt-0 d-flex justify-content-center align-items-center">
+        <!-- <h3>space for filter</h3> -->
+      </div>
+      <div class="m-2 justify-content-center" style="width: auto">
+        <table class="custom-table">
+          <thead class="">
+            <tr>
+              <th>Product</th>
+              <th>Order No.</th>
+              <th style="width: 10%" >Order Date</th>
+              <th>Product Name</th>
+              <th>Product Qty</th>
+              <th>Product Amount</th>
+              <th>Total Amount</th>
+              <th>Order Status</th>
+
+              <th style="width: 25%">Update</th>
+              <th style="width: 15%">Cancel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="tempMyOrders : ${orderModel}">
+              <td class="text-center align-middle">
+                <a
+                  th:href="@{/images/{imageName}(imageName=${tempMyOrders.productImage})}"
+                  target="_blank"
+                >
+                  <img
+                    th:src="@{/images/{imageName}(imageName=${tempMyOrders.productImage})}"
+                    alt="Product Image"
+                    class="cell-image"
+                  />
+                </a>
+              </td>
+              <td th:text="${tempMyOrders.orderNumber}">1</td>
+              <td th:text="${tempMyOrders.orderDate}">1</td>
+              <td th:text="${tempMyOrders.productName}">1</td>
+              <td th:text="${tempMyOrders.productQty}">1</td>
+              <td th:text="${tempMyOrders.productAmount}">1</td>
+              <td th:text="${tempMyOrders.totalAmount}">1</td>
+
+              <td th:text="${tempMyOrders.orderStatus}">1</td>
+
+              <td
+                th:text="${tempMyOrders.orderDetailsId}"
+                name="orderDetailsId"
+                style="display: none"
+              >
+                1
+              </td>
+
+              <td>
+                <div sec:authorize="!hasRole('CUSTOMER')" class="mb-2">
+                  <form th:action="@{/updateOrderStatus}" th:method="put">
+                    <div class="row d-flex justify-content-end">
+                      <div class="col-md-6">
+                        <select name="newStatus" class="form-select">
+                          <option value="Order Processing">
+                            Order Processing
+                          </option>
+                          <option value="Shipped">Shipped</option>
+                          <option value="Out For Delivery">
+                            Out For Delivery
+                          </option>
+                          <option value="Delivered">Delivered</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <input
+                          type="hidden"
+                          name="orderDetailsId"
+                          th:value="${tempMyOrders.orderDetailsId}"
+                        />
+                        <button
+                          type="submit"
+                          class="btn btn-primary"
+                          sec:authorize="!hasRole('CUSTOMER')"
+                        >
+                          Update Status
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="mb-2">
+                  <form th:action="@{/changeOrderQty}" th:method="put">
+                    <div class="row d-flex justify-content-end">
+                      <div class="col-md-6">
+                        <input
+                          type="number"
+                          name="newQty"
+                          placeholder="Enter New Required Qty"
+                          required
+                        />
+                      </div>
+                      <div class="col-md-6">
+                        <input
+                          type="hidden"
+                          name="orderDetailsId"
+                          th:value="${tempMyOrders.orderDetailsId}"
+                        />
+                        <button type="submit" class="btn btn-success">
+                          Change Qty
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </td>
+
+              <td>
+                <form th:action="@{/cancelOrder}" th:method="put">
+                  <input
+                    type="hidden"
+                    name="orderDetailsId"
+                    th:value="${tempMyOrders.orderDetailsId}"
+                  />
+                  <button class="btn btn-danger">Cancel Product</button>
+                </form>
+              </td>
+            </tr>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th><a th:text="${totalQtyInOrder}"> 0</a></th>
+              <th></th>
+              <th><a th:text="${totalAmountInOrder}">0 </a></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <footer class="text-white text-center">
+      <div class="mb-0" style="height: 120px">
+        <hr class="border border-secondary-emphasis border-2 opacity-100" />
+
+        <p>Follow us on social media:</p>
+        <a href="#" class="btn btn-outline-light btn-lg social-icons"
+          ><i class="fab fa-facebook"></i
+        ></a>
+        <a href="#" class="btn btn-outline-light btn-lg social-icons"
+          ><i class="fab fa-instagram"></i
+        ></a>
+        <a href="#" class="btn btn-outline-light btn-lg social-icons"
+          ><i class="fab fa-twitter"></i
+        ></a>
+        <a href="#" class="btn btn-outline-light btn-lg social-icons"
+          ><i class="fab fa-telegram"></i
+        ></a>
+      </div>
+    </footer>
+  </body>
+</html>
