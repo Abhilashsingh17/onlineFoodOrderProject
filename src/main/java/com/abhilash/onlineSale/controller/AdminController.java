@@ -33,7 +33,7 @@ public class AdminController {
         // FIND ALL THE USER AND PASS IT TO THE MODEL
 
         List<UserForm> listAllUser = userFormServices.findAllUser(role);
-        
+
         model.addAttribute("userModel", listAllUser);
 
         return "/admin/showAllUser";
@@ -80,12 +80,18 @@ public class AdminController {
     @PutMapping("/admin/enableUser")
     public String enableUser(@RequestParam("emailId") String emailId, Model model) {
 
-        Boolean activeStatus =  userServices.enableUser(emailId);
+        Boolean activeStatus = userServices.enableUser(emailId);
         if (!activeStatus) {
             return "/notification/UserAlreadyEnabled";
         }
 
         return "/notification/enableUser";
+    }
+
+    @GetMapping("whatever")
+    public String dosome() {
+
+        return "";
     }
 
 }
