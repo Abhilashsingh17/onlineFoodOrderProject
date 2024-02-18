@@ -91,6 +91,7 @@ public class AdminController {
     @GetMapping("whatever")
     public String dosome() {
         System.out.println("printing after add");
+        // add somthing
         return "";
     }
 
