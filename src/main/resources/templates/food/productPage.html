@@ -28,12 +28,12 @@
   <!--overflow:hidden-->
 
   <body
-  style="
-  background-image: url(/background/backgroundnine.png);
-  background-size: cover;
-  background-position: top center;
-  background-repeat: repeat;
-"
+    style="
+      background-image: url(/background/backgroundnine.png);
+      background-size: cover;
+      background-position: top center;
+      background-repeat: repeat;
+    "
   >
     <!-- Navbar -->
     <nav
@@ -203,8 +203,18 @@
                 </a>
 
                 <form th:action="@{/deleteProduct}" th:method="delete">
-                  <input type="hidden" name="id"  th:value="${tempProduct.productId}"/>
-                  <button type="submit" class="btn btn-danger col-12" sec:authorize="!hasRole('CUSTOMER')">Delete Product</button>
+                  <input
+                    type="hidden"
+                    name="id"
+                    th:value="${tempProduct.productId}"
+                  />
+                  <button
+                    type="submit"
+                    class="btn btn-danger col-12"
+                    sec:authorize="!hasRole('CUSTOMER')"
+                  >
+                    Delete Product
+                  </button>
 
                   <!-- <a
                   class="text-center btn btn-danger col-12"

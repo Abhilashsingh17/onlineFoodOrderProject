@@ -20,25 +20,24 @@ public class LoginController {
     private CartServices cartServices;
 
     @Autowired
-    LoginController(CartServices cartServices, ProductService productService, UserServices userServices, PasswordEncoder passwordEncoder, UserRoleServices userRoleServices, UserFormServices userFormServices) {
+    LoginController(CartServices cartServices, ProductService productService, UserServices userServices,
+            PasswordEncoder passwordEncoder, UserRoleServices userRoleServices, UserFormServices userFormServices) {
 
         this.userServices = userServices;
         this.userFormServices = userFormServices;
         this.cartServices = cartServices;
     }
 
-
     // DISPLAY HOME PAGE
     @GetMapping("/")
     public String homePage(@ModelAttribute("currentUser") UserForm userForm, Model model) {
 
-        //GET QTY IN CART , FOR NAVBAR CART ICON
+        // GET QTY IN CART , FOR NAVBAR CART ICON
         Long totalQtyInCart = cartServices.getTotalQtyByUserId(userForm.getUserId());
         model.addAttribute("totalQtyInCart", totalQtyInCart);
 
         return "home/homePage";
     }
-
 
     /**
      * DISPLAYING THE LOGIN PAGE
@@ -68,20 +67,20 @@ public class LoginController {
 
     // SIGNUP PROCESS
     @PostMapping("/public/signUp")
-    public String signUp(@Valid @ModelAttribute("theNewUserFormModel") UserForm newUserForm, BindingResult bindingUserFormResult,
-                         @RequestParam("forEmployeeRole") String forEmployeeRole, Model model
+    public String signUp(@Valid @ModelAttribute("theNewUserFormModel") UserForm newUserForm,
+            BindingResult bindingUserFormResult,
+            @RequestParam("forEmployeeRole") String forEmployeeRole, Model model
 
     ) {
         /*
-         * AFTER DECLARING @MODELATTRIBUTE() USERFORM NEWUSERFORM, WE MUST DECLARE BINDINGRESULT.
+         * AFTER DECLARING @MODELATTRIBUTE() USERFORM NEWUSERFORM, WE MUST DECLARE
+         * BINDINGRESULT.
          * AND CHECK IF BINDING RESULT HAS ANY ERROR OR NOT
          */
-
 
         if (bindingUserFormResult.hasErrors()) {
             return "login/signUpPage";
         }
-
 
         if (newUserForm.getUserId() != null) {
             UserForm userFormUpdated = userFormServices.updateUserForm(newUserForm, forEmployeeRole);
@@ -106,14 +105,13 @@ public class LoginController {
         return "login/signUpPage";
     }
 
-
-    // ENDPOINT FOR ACCESS DENIED , IF SOME ON TRY TO ACCESS ENDPOINT WHICH HE DOES NOT HAVE ACCESS
+    // ENDPOINT FOR ACCESS DENIED , IF SOME ON TRY TO ACCESS ENDPOINT WHICH HE DOES
+    // NOT HAVE ACCESS
     @GetMapping("/accessDenied")
     public String accessDeniedPage() {
 
         return "notification/accessDeniedPage";
     }
-
 
     // REMOVE SPACE FROM THE INPUT TAG
     @InitBinder
@@ -133,12 +131,13 @@ public class LoginController {
     }
 
     @PostMapping("/public/resetPassword")
-    public String checkSecurityQuestion(@RequestParam("emailId") String emailId, @RequestParam("favoriteTeam") String favoriteTeam, @RequestParam("newPassword") String newPassword) {
+    public String checkSecurityQuestion(@RequestParam("emailId") String emailId,
+            @RequestParam("favoriteTeam") String favoriteTeam, @RequestParam("newPassword") String newPassword) {
 
         // RESET PASSWORD USING
         Boolean afterResetPassword = userServices.updateThePassword(emailId, favoriteTeam, newPassword);
 
-        //IF TRUE RETURN SUCCESS PAGE
+        // IF TRUE RETURN SUCCESS PAGE
         if (afterResetPassword) {
             return "/notification/passwordUpdated";
         }
@@ -149,7 +148,7 @@ public class LoginController {
     @GetMapping("/updateUserDetails")
     public String updateUserDetails(@RequestParam("emailId") String emailId, Model model) {
 
-        //FIND THE USER FORM TO UPDATE
+        // FIND THE USER FORM TO UPDATE
         UserForm userToUpdate = userFormServices.findByEmailId(emailId);
 
         if (userToUpdate != null) {

@@ -19,7 +19,6 @@ public class AdminController {
     private UserFormServices userFormServices;
     private UserServices userServices;
 
-
     @Autowired
     AdminController(UserFormServices userFormServices, UserServices userServices) {
         this.userFormServices = userFormServices;
@@ -63,8 +62,7 @@ public class AdminController {
         return "/notification/userNotFound";
     }
 
-
-    //CHANGE ACTIVE STATUS OF USER TO MAKE THEM DE-ACTIVE
+    // CHANGE ACTIVE STATUS OF USER TO MAKE THEM DE-ACTIVE
     @PutMapping("/admin/disableUser")
     public String disableUser(@RequestParam("emailId") String emailId, Model model) {
 
@@ -76,7 +74,7 @@ public class AdminController {
         return "/notification/disabledUser";
     }
 
-    //CHANGE ACTIVE STATUS OF USER TO MAKE THEM ACTIVE
+    // CHANGE ACTIVE STATUS OF USER TO MAKE THEM ACTIVE
     @PutMapping("/admin/enableUser")
     public String enableUser(@RequestParam("emailId") String emailId, Model model) {
 
